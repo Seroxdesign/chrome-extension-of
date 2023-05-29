@@ -7,30 +7,23 @@ const autofanListener = (message: ChromeMessage, sender: any, response: any) => 
 	});
 
 	function getExpiredFollowers() {
-		console.log('made it in')
 		const expiredFollowers = document.getElementsByClassName('m-rounded m-flex m-space-between m-lg g-btn');
-		console.log(Array.from(expiredFollowers), 'array');
-		console.log(expiredFollowers, 'exf')
 		return Array.from(expiredFollowers);
 	}
 
 	if (sender.id === chrome.runtime.id && message.from === Sender.React && message.message === 'get expired follower count') {
 		const expiredCount = document.getElementsByClassName('b-tabs__nav__text');
-		console.log(`${expiredCount[2].innerHTML}`)
 		response(`${expiredCount[2].innerHTML}`)
 	}
 
 	if (sender.id === chrome.runtime.id && message.from === Sender.React && message.message === 'auto follow') {
 		const followers = getExpiredFollowers();
-		console.log('followers 2', followers);
 		//@ts-ignore
 		followers.forEach(follower => follower.click())
 	}
 };
 
 chrome.runtime.onConnect.addListener(port => {
-  console.log('succeeded', port);
- 
   if (port.name === 'connected') {
 		chrome.runtime.onMessage.addListener(autofanListener);
   }

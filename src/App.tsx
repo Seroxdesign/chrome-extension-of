@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import logo from './autofan.png';
-
 import './App.css';
+import { SignInForm } from './components/login';
+import { Signup } from './components/signup';
 import { ChromeMessage, Sender } from './types';
 
 const App = () => {
+	const [page, setPage] = useState(0);
 	const [url, setUrl] = useState<string>('');
+	const [user, setUser] = useState<any>()
 	const [responseFromContent, setResponseFromContent] = useState<string>('');
 	const [expiredFollowers, setExpiredFollowers] = useState<string>('');
 	/**
@@ -67,6 +70,14 @@ const App = () => {
 				});
 			});
 	};
+
+	if (!user && page === 0) {
+		return <Signup setUser={setUser} switchPage={setPage}/>
+	}
+
+	if (!user && page === 1) {
+		return <SignInForm setUser={setUser} switchPage={setPage}/>
+	}
 
 	return (
 		<div className='App' >
